@@ -5,7 +5,11 @@ from pyrogram import Client
 from pyrogram.enums import ParseMode
 import sys
 from datetime import datetime
-from config import API_HASH, API_ID, LOGGER, BOT_TOKEN, TG_BOT_WORKERS, FORCE_SUB_CHANNEL, FORCE_SUB_CHANNEL2, CHANNEL_ID, PORT
+from config import (
+    API_HASH, API_ID, LOGGER, BOT_TOKEN, TG_BOT_WORKERS,
+    FORCE_SUB_CHANNEL, FORCE_SUB_CHANNEL2,
+    CHANNEL_ID, PORT
+)
 import pyrogram.utils
 
 pyrogram.utils.MIN_CHANNEL_ID = -1009999999999
@@ -36,8 +40,8 @@ class Bot(Client):
                     await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
                     link = (await self.get_chat(FORCE_SUB_CHANNEL)).invite_link
                 self.invitelink = link
-            except Exception as a:
-                self.LOGGER(__name__).warning(a)
+            except Exception as e:
+                self.LOGGER(__name__).warning(e)
                 self.LOGGER(__name__).warning("Bot Can't Export Invite link From Force Sub Channel 1!")
                 self.LOGGER(__name__).warning(f"Check FORCE_SUB_CHANNEL value. Current: {FORCE_SUB_CHANNEL}")
                 self.LOGGER(__name__).info("\nBot Stopped.")
@@ -51,13 +55,14 @@ class Bot(Client):
                     await self.export_chat_invite_link(FORCE_SUB_CHANNEL2)
                     link2 = (await self.get_chat(FORCE_SUB_CHANNEL2)).invite_link
                 self.invitelink2 = link2
-            except Exception as a:
-                self.LOGGER(__name__).warning(a)
+            except Exception as e:
+                self.LOGGER(__name__).warning(e)
                 self.LOGGER(__name__).warning("Bot Can't Export Invite link From Force Sub Channel 2!")
                 self.LOGGER(__name__).warning(f"Check FORCE_SUB_CHANNEL2 value. Current: {FORCE_SUB_CHANNEL2}")
                 self.LOGGER(__name__).info("\nBot Stopped.")
                 sys.exit()
 
+        # ── DB Channel Check ──────────────────────────────────
         try:
             db_channel = await self.get_chat(CHANNEL_ID)
             self.db_channel = db_channel
@@ -70,21 +75,20 @@ class Bot(Client):
             sys.exit()
 
         self.set_parse_mode(ParseMode.HTML)
-        self.LOGGER(__name__).info(f"Bot Running...!\n\nCreated By \nhttps://t.me/Madflix_Bots")
-        self.LOGGER(__name__).info(f"""ミ💖 MADFLIX BOTZ 💖彡""")
+        self.LOGGER(__name__).info("Bot Running...!\n\nCreated By \nhttps://t.me/Madflix_Bots")
+        self.LOGGER(__name__).info("ミ💖 MADFLIX BOTZ 💖彡")
         self.username = usr_bot_me.username
 
         app = web.AppRunner(await web_server())
         await app.setup()
-        bind_address = "0.0.0.0"
-        await web.TCPSite(app, bind_address, PORT).start()
+        await web.TCPSite(app, "0.0.0.0", PORT).start()
 
     async def stop(self, *args):
         await super().stop()
         self.LOGGER(__name__).info("Bot Stopped...")
 
 
-# Jishu Developer 
+# Jishu Developer
 # Don't Remove Credit 🥺
 # Telegram Channel @Madflix_Bots
 # Backup Channel @JishuBotz
