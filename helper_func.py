@@ -13,20 +13,28 @@ async def is_subscribed(filter, client, update):
     if user_id in ADMINS:
         return True
 
-    # Check Channel 1
+    # ── Check Channel 1 ───────────────────────────────────────
     if FORCE_SUB_CHANNEL:
         try:
             member = await client.get_chat_member(chat_id=FORCE_SUB_CHANNEL, user_id=user_id)
-            if member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER]:
+            if member.status not in [
+                ChatMemberStatus.OWNER,
+                ChatMemberStatus.ADMINISTRATOR,
+                ChatMemberStatus.MEMBER
+            ]:
                 return False
         except UserNotParticipant:
             return False
 
-    # Check Channel 2
+    # ── Check Channel 2 ───────────────────────────────────────
     if FORCE_SUB_CHANNEL2:
         try:
             member2 = await client.get_chat_member(chat_id=FORCE_SUB_CHANNEL2, user_id=user_id)
-            if member2.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER]:
+            if member2.status not in [
+                ChatMemberStatus.OWNER,
+                ChatMemberStatus.ADMINISTRATOR,
+                ChatMemberStatus.MEMBER
+            ]:
                 return False
         except UserNotParticipant:
             return False
@@ -53,7 +61,7 @@ async def get_messages(client, message_ids):
     messages = []
     total_messages = 0
     while total_messages != len(message_ids):
-        temb_ids = message_ids[total_messages:total_messages+200]
+        temb_ids = message_ids[total_messages:total_messages + 200]
         try:
             msgs = await client.get_messages(
                 chat_id=client.db_channel.id,
@@ -122,7 +130,7 @@ def get_readable_time(seconds: int) -> str:
 subscribed = filters.create(is_subscribed)
 
 
-# Jishu Developer 
+# Jishu Developer
 # Don't Remove Credit 🥺
 # Telegram Channel @Madflix_Bots
 # Backup Channel @JishuBotz
